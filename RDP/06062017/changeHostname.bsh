@@ -1,0 +1,74 @@
+#!/bin/bash
+##Change Hostname Script
+##Created by Nathan Knight
+##Last Updated June 6th 2017
+
+export lineSelect='1'
+export lineName='No Line Selected'
+export namePrefix='Andon'
+export dept="No Department Selected"
+
+printf 'Department List\n'
+printf '[1] Assembly\n'
+printf '[2] Sensor\n'
+printf '[3] Mounting\n'
+printf '[4] Inspection\n'
+printf '[5] Terminal Insertion \ Depanelizers\n'
+printf '[6] EWP\n'
+printf '[7] Other\n'
+
+while [ "$dept" == "No Department Selected" ]; do
+printf "Select Department\n"
+read -p "" deptSelect
+case $deptSelect in
+	[1]* ) dept='Assembly';;
+	[2]* ) dept='Sensor';;
+	[3]* ) dept='Mounting'; newName=$(sh ~\scripts\RDP\mountinglines.bsh);;
+	[4]* ) dept='Inspection'; newName=$(sh ~\scripts\RDP\inspectionlines.bsh);;
+	[5]* ) dept='Terminal Insertion \- Depanelizers'; newName=$(sh ~\scripts\RDP\tidepanellines.bsh);;
+	[6]* ) dept='EWP'; newName=$(sh ~\scripts\RDP\ewplines.bsh);;
+	[7]* ) dept='Other'; newName=$(sh ~\scripts\RDP\otherdisps.bsh);;
+	esac
+done
+
+printf "$dept\n"
+
+#Department Line Lists
+##Assembly
+
+##DEBUG
+#printf "Line Selected: "; printf $lineSelect; printf "\n"
+
+if [ "$dept" == 'Assembly' ]; then
+
+#print line selection list
+printf 'Line List\n'
+printf '[1] AS1001\n'
+printf '[2] AS1002\n'
+printf '[3] AS1003\n'
+printf '[4] AS1004\n'
+printf '[5] AS1005\n'
+printf '[6] AS1007\n'
+
+#select line from user input
+while [ "$lineName" == "No Line Selected" ]; do
+printf "Select Line\n"
+read -p "" lineSelect
+
+#set line based on user input
+case $lineSelect in
+       	[1]*) lineName='AS1001';;
+       	[2]*) lineName='AS1002';;
+       	[3]*) lineName='AS1003';;
+       	[4]*) lineName='AS1004';;
+       	[5]*) lineName='AS1005';;
+       	[6]*) lineName='AS1007';;
+	#Default case is not working
+	*) printf="Use 1-6 to select a line";;
+       	esac
+done
+fi
+HOSTNAME="$namePrefix$lineName"
+echo $HOSTNAME
+#sudo hostname 
+

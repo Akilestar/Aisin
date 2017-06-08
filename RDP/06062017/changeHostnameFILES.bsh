@@ -1,0 +1,92 @@
+#!/bin/bash
+##Change Hostname Script
+##Created by Nathan Knight
+##Last Updated June 6th 2017
+
+export lineSelect='1'
+export lineName='No Line Selected'
+export namePrefix='Andon'
+export dept="No Department Selected"
+export lineTextList="~/scripts/RDP/text\ files/AssemblyUsernames.text"
+export rowNum='1'
+
+printf '%s\n' "Department List"
+printf '%s\n' "[1] Assembly"
+printf '%s\n' "[2] Sensor"
+printf '%s\n' "[3] Mounting"
+printf '%s\n' "[4] Inspection"
+printf '%s\n' "[5] Terminal Insertion \ Depanelizers"
+printf '%s\n' "[6] EWP"
+printf '%s\n' "[7] Other"
+
+while [ "$dept" == "No Department Selected" ]; do
+	printf "%s\n" "Select Department"
+	read -p "" deptSelect
+	case $deptSelect in
+		[1]* ) dept='Assembly';;
+		[2]* ) dept='Sensor';;
+		[3]* ) dept='Mounting';;
+		[4]* ) dept='Inspection';;
+		[5]* ) dept='Terminal Insertion \- Depanelizers';;
+		[6]* ) dept='EWP';;
+		[7]* ) dept='Other';;
+	esac
+done
+
+printf "%s\n" "$dept"
+
+#Department Line Lists
+##Assembly
+if [ "$dept" == 'Assembly' ]; then
+	#set text list to correct file
+	lineTextList="/home/pi/scripts/RDP/text files/AssemblyUsernames.text"
+	#map text file lines to array
+	mapfile -t lineList < "$lineTextList"
+
+	#print line selection list
+	printf "%s\n" "Line List"
+	while IFS= read -r line; do
+	        printf "[%s]\t%s\n" "$rowNum" "$line"
+	        rowNum=$(($rowNum+1))
+	done < "$lineTextList"
+
+	#get user input
+	while [ "$lineName" == "No Line Selected" ]; do
+		printf "%s\n" "Select Line"
+		#set line based on user input
+		read -p "" lineSelect
+		lineSelect=$(($lineSelect-1))
+		lineName=${lineList[$lineSelect]}
+	done
+fi
+
+##Sensor
+if [ "$dept" == 'Sensor' ]; then
+        #set text list to correct file
+        lineTextList="/home/pi/scripts/RDP/text files/SensorUsernames.text"
+        #map text file lines to array
+        mapfile -t lineList < "$lineTextList"
+
+        #print line selection list
+        printf "%s\n" "Line List"
+        while IFS= read -r line; do
+                printf "[%s]\t%s\n" "$rowNum" "$line"
+                rowNum=$(($rowNum+1))
+        done < "$lineTextList"
+
+        #get user input
+        while [ "$lineName" == "No Line Selected" ]; do
+                printf "%s\n" "Select Line"
+                #set line based on user input
+                read -p "" lineSelect
+                lineSelect=$(($lineSelect-1))
+                lineName=${lineList[$lineSelect]}
+        done
+fi
+
+#Change Hostname
+HOSTNAME="$namePrefix$lineName"
+echo $HOSTNAME
+
+#sudo hostname $HOSTNAME 
+

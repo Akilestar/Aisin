@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#set default line to 1
+lineselect='1'
+
+#print line selection list
+printf 'Line List\n'
+printf '[1] AS1001\n'
+printf '[2] AS1002\n'
+printf '[3] AS1003\n'
+printf '[4] AS1004\n'
+printf '[5] AS1005\n'
+printf '[6] AS1007\n'
+
+#select line from user input
+read -p "Select Line" lineSelect
+
+#set line based on user input
+case $lineSelect in
+        [1]* ) lineName='AS1001';;
+        [2]* ) lineName='AS1002';;
+        [3]* ) lineName='AS1003';;
+        [4]* ) lineName='AS1004';;
+        [5]* ) lineName='AS1005';;
+        [6]* ) lineName='AS1007';;
+        esac
+
+echo $lineName

@@ -1,0 +1,24 @@
+##Test one
+
+#set text list to correct file
+lineTextList="/home/pi/scripts/RDP/text files/""$dept""Usernames.text"
+
+#map text file lines to array
+mapfile -t lineList < "$lineTextList"
+
+#print line selection list
+printf "%s\n" "Line List"
+while IFS= read -r line; do
+        printf "[%s]\t%s\n" "$rowNum" "$line"
+        rowNum=$(($rowNum+1))
+done < "$lineTextList"
+
+#get user input
+while [ "$lineName" == "No Line Selected" ]; do
+        printf "%s\n" "Select Line"
+        #set line based on user input
+        read -p "" lineSelect
+        lineSelect=$(($lineSelect-1))
+        lineName=${lineList[$lineSelect]}
+done
+
