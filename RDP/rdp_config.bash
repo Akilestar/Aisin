@@ -1,13 +1,17 @@
 #!/bin/bash
 
-#RDP Configuration Script
-#created by Nathan Knight
-#last updated June 9th 2017
+#########################################
+#					#
+#	RDP Configuration Script	#
+#	created by Nathan Knight	#
+#	last updated June 9th 2017	#
+#					#
+#########################################
 
-
-##FUNCTIONS
+#########################
+#	FUNCTIONS	#
+#########################
 source functions/tput.bash
-source functions/packageCheck.bash
 
 #countdown
 countdown () {
@@ -28,8 +32,10 @@ timeout=$(($2*1000))
 sudo -u pi DISPLAY=:0.0 notify-send -t $timeout "Andon System" "$message"
 }
 
+#########################
+#	VARIABLES	#
+#########################
 
-##VARIABLES
 #hostname
 RPIhostname=$(awk '/a/ {print $0}' /etc/hostname)
 
@@ -48,10 +54,12 @@ until ping -nq -c3 AEIL-AndonMDT; do
 	tclear
 done
 )
+
 notifysend "Connected to Andon Server" 4
 #check xfreerdp is missing and install if needed
-packagecheck "freerdp-x11"
-sleep 5
+bash packageCheck.bash "freerdp-x11"
+notifysend "RDP Client installed" 5
+sleep 1
 tc
 
 #Begin Correct User Confirmation
