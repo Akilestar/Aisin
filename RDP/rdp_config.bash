@@ -11,9 +11,48 @@
 #########################
 #	FUNCTIONS	#
 #########################
-source functions/tput.bash
 
-#countdown
+#	TPUT		#
+#########################
+#text colors
+tblack () {
+tput setaf 0
+}
+tred () {
+tput setaf 1
+}
+tgreen () {
+tput setaf 2
+}
+tyellow () {
+tput setaf 3
+}
+tblue () {
+tput setaf 4
+}
+tmagenta () {
+tput setaf  5
+}
+tcyan () {
+tput setaf 6
+}
+twhite () {
+tput setaf 7
+}
+tbold () {
+tput bold
+}
+#set text back to default
+tclear () {
+tput sgr0
+}
+#clear terminal window of all text
+tc () {
+tput clear
+}
+
+#	COUNTDOWN	#
+#########################
 countdown () {
 printf "\n"
 i=$1 && while [ $i -gt 0 ]; do
@@ -24,7 +63,8 @@ i=$1 && while [ $i -gt 0 ]; do
 printf "\n"
 }
 
-#notify-send
+#	NOTIFY-SEND	#
+#########################
 notifysend () {
 timeout=$2
 message="$1"

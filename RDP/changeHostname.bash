@@ -3,7 +3,41 @@
 ##Created by Nathan Knight
 ##Last Updated June 9th 2017
 
-##functions
+#########################
+#       FUNCTIONS       #
+#########################
+
+#       TPUT            #
+#########################
+#text colors
+tblack () {
+tput setaf 0
+}
+tred () {
+tput setaf 1
+}
+tgreen () {
+tput setaf 2
+}
+tyellow () {
+tput setaf 3
+}
+tblue () {
+tput setaf 4
+}
+tmagenta () {
+tput setaf  5
+}
+tcyan () {
+tput setaf 6
+}
+twhite () {
+tput setaf 7
+}
+tbold () {
+tput bold
+}
+
 #notify-send
 notifysend () {
 timeout=$3
@@ -13,12 +47,12 @@ timeout=$(($3*1000))
 sudo -u pi DISPLAY=:0.0 notify-send -t $timeout "$title" "$message"
 }
 #tput colors
-source functions/tput.bash
+
 
 #variables
 lineName='No Line Selected'
 namePrefix='Andon'
-lineTextList="text\ files/AssemblyUsernames.text"
+lineTextList="textfiles/AssemblyUsernames.text"
 rowNum='1'
 RPIhostname=$(awk '/a/ {print $0}' /etc/hostname)
 
@@ -108,7 +142,7 @@ tput sgr0
 tput rc
 
 #set text list to correct file
-lineTextList="text files/""$dept""Usernames.text"
+lineTextList="textfiles/""$dept""Usernames.text"
 
 
 ###End Department List Section###
