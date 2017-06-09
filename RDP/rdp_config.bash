@@ -2,12 +2,12 @@
 
 #RDP Configuration Script
 #created by Nathan Knight
-#last updated June 7th 2017
+#last updated June 9th 2017
 
 
 ##FUNCTIONS
-source /home/pi/scripts/RDP/functions/tput.bash
-source /home/pi/scripts/RDP/functions/packageCheck.bash
+source functions/tput.bash
+source functions/packageCheck.bash
 
 #countdown
 countdown () {
@@ -69,9 +69,9 @@ tbold
 printf "%s\n %s\n" "Do you want to Change Users?" "Type Y or N"
 read -t 30 -n 1 -p " " answer
 case $answer in
-        [Yy]* ) sudo bash /home/pi/scripts/RDP/changeHostname.bash;;
+        [Yy]* ) sudo bash changeHostname.bash;;
         [Nn]* ) printf "Login using: %s\n" "$RPIhostname";;
         esac
 #connect to terminal server
 notifysend "Launching RDP Client" 5
-sudo bash /home/pi/scripts/RDP/launchRDP.bash
+sudo bash launchRDP.bash
