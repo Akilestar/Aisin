@@ -1,7 +1,7 @@
 #!/bin/bash
 ##Change Hostname Script
 ##Created by Nathan Knight
-##Last Updated June 9th 2017
+##Last Updated June 16th 2017
 
 #########################
 #       FUNCTIONS       #
@@ -51,7 +51,6 @@ sudo -u pi DISPLAY=:0.0 notify-send -t $timeout "$title" "$message"
 
 #variables
 lineName='No Line Selected'
-namePrefix='Andon'
 lineTextList="textfiles/AssemblyUsernames.text"
 rowNum='1'
 RPIhostname=$(awk '/a/ {print $0}' /etc/hostname)
@@ -203,22 +202,24 @@ tput sgr0
 tput rc
 
 #Change Hostname
-HOSTNAME="$dept $lineName"
-notifysend "New User" "$HOSTNAME" 5
-HOSTNAME="$namePrefix$lineName"
+HOSTNAME=$(hostname)
+namePrefix='Andon'
+NEW_HOSTNAME="$dept $lineName"
+#notifysend "New User" "$NEW_HOSTNAME" 5
+NEW_HOSTNAME="$namePrefix$lineName"
+
+#DEBUG
+#printf "\n%s %s" "DEBUGING HOSTNAME" "$NEW_HOSTNAME"
+#sleep 10
+
+hostname $NEW_HOSTNAME
+echo $NEW_HOSTNAME > /etc/hostname
+sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
 
 tput setaf 3
-printf "%s %s\n" "System will restart to change user to" "$HOSTNAME"
-printf "%s\n" "Press Y to continue or N to restart without changes"
-
-read -p "" keypress
-case $keypress in
-	[Yy]* ) sudo hostname $HOSTNAME;;
-	[Nn]* ) sudo bash /startAndon.bash; exit;;
-esac
-
-#restart machine
-sudo shutdown -r -t 30
+printf "\n%s %s\n" "System will restart to change user to" "$(hostname)"
 
 sleep 5
-exit 0
+
+#restart machine
+sudo shutdown -r now

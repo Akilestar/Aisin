@@ -4,7 +4,7 @@
 #					#
 #	RDP Configuration Script	#
 #	created by Nathan Knight	#
-#	last updated June 9th 2017	#
+#	last updated June 16th 2017	#
 #					#
 #########################################
 
@@ -77,7 +77,7 @@ sudo -u pi DISPLAY=:0.0 notify-send -t $timeout "Andon System" "$message"
 #########################
 
 #hostname
-RPIhostname=$(awk '/a/ {print $0}' /etc/hostname)
+RPIhostname=$(hostname)
 
 ##START SCRIPT
 tc
@@ -98,7 +98,7 @@ done
 notifysend "Connected to Andon Server" 4
 #check xfreerdp is missing and install if needed
 bash packageCheck.bash "freerdp-x11"
-notifysend "RDP Client installed" 5
+#notifysend "RDP Client installed" 5
 sleep 1
 tc
 
@@ -118,8 +118,18 @@ printf "%s\n %s\n" "Do you want to Change Users?" "Type Y or N"
 read -t 30 -n 1 -p " " answer
 case $answer in
         [Yy]* ) sudo bash changeHostname.bash;;
-        [Nn]* ) printf "Login using: %s\n" "$RPIhostname";;
+        [Nn]* ) printf "Launching RDP Client";;
         esac
 #connect to terminal server
-notifysend "Launching RDP Client" 5
-sudo bash launchRDP.bash
+
+sleep 3
+
+RPIhostname=$(hostname)
+
+xfreerdp -f -u $RPIhostname -p andon -v 'AEIL-AndonTS'
+
+printf "Restarting"
+sleep 5
+
+sudo reboot
+
