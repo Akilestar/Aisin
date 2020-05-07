@@ -1,3 +1,5 @@
-# Aisin-Script Repo
+# Andon Automated RDP
 
-Place to store scripts for RDP launch program
+Automated RDP system for Raspberry Pi's
+
+Collection of scripts developed for Aisin Electronics for their Andon System
